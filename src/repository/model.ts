@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Schema, Model, Connection } from 'mongoose';
+import { Schema, Model } from 'mongoose';
 
 export type Permission = 'create' | 'read' | 'update' | 'delete';
 
@@ -44,7 +44,7 @@ let Acl: any;
 let Rbac: any;
 
 export const rulesModel = (
-  connection: Connection,
+  connection: any,
   type: ModelType = ModelType.ACL,
 ): typeof Model<unknown> => {
   if (Acl === undefined && Rbac === undefined) {

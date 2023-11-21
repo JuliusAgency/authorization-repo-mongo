@@ -4,15 +4,15 @@
  * Runs the initRules once only for each (ACl, RBAC) type.
  */
 
-import { Connection } from 'mongoose';
-import { ModelType, rulesModel } from './model';
+import { rulesModel } from './model';
 
 /**
  * Load a authorization definitions into a Db
  * @param type
  * @param data
  */
-export const initRules = async (connection: Connection, type: ModelType, data: unknown) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const initRules = async (connection: any, type: any, data: unknown) => {
   const model = rulesModel(connection, type);
   const newRules = new model(data);
   await newRules.save();

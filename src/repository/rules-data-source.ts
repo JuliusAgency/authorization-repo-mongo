@@ -1,8 +1,7 @@
-// import { rulesModel } from 'mongoose';
-import { Connection } from 'mongoose';
-import { ModelType, rulesModel } from './model';
+import { rulesModel } from './model';
 
-export const rulesDataSource = (connection: Connection, type: ModelType) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const rulesDataSource = (connection: any, type: any) => {
   const getRules = async () => {
     const rulesCollection = rulesModel(connection, type);
     const rules = await rulesCollection.find({});
