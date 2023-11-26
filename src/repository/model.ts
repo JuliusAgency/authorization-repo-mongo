@@ -1,43 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Schema, Model } from 'mongoose';
 
-export type Permission = 'create' | 'read' | 'update' | 'delete';
-
 export enum ModelType {
   ACL = 0,
   RBAC = 1,
 }
 
-const ResourceSchema = new Schema(
-  {
-    resource: String,
-    permissions: Array<Permission>,
-  },
-  { _id: false },
-);
-
-const RoleSchemaAcl = new Schema(
-  {
-    role: String,
-    resources: [ResourceSchema],
-  },
-  { _id: false },
-);
-
-const AclSchema = new Schema({
-  acl: [RoleSchemaAcl],
-});
-
 const RoleSchemaRbac = new Schema(
   {
     role: String,
-    permissions: Array<Permission>,
+    permission: Array<boolean>,
   },
   { _id: false },
 );
 
 const RbacSchema = new Schema({
-  rbac: [RoleSchemaRbac],
+  rules: [RoleSchemaRbac],
+});
+
+const RoleSchemaAcl = new Schema(
+  {
+    role: String,
+    resource: String,
+    permission: Array<boolean>,
+  },
+  { _id: false },
+);
+
+const AclSchema = new Schema({
+  rules: [RoleSchemaAcl],
 });
 
 let Acl: any;
@@ -49,7 +40,7 @@ export const rulesModel = (
 ): typeof Model<unknown> => {
   if (Acl === undefined && Rbac === undefined) {
     Acl = connection.model('Acl', AclSchema);
-    Rbac = connection.model('Rbac', RbacSchema);     
-  }; 
-  return type === ModelType.ACL ?Acl: Rbac;
+    Rbac = connection.model('Rbac', RbacSchema);
+  };
+  return type === ModelType.ACL ? Acl : Rbac;
 };

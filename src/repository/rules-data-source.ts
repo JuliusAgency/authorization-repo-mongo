@@ -5,7 +5,7 @@ export const rulesDataSource = (connection: any, type: any) => {
   const getRules = async () => {
     const rulesCollection = rulesModel(connection, type);
     const rules = await rulesCollection.find({});
-    return rules;
+    return rules[0].rules;
   };
 
   return { getRules };
